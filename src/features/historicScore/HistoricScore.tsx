@@ -1,10 +1,9 @@
-import type React from "react";
-import { useEffect } from "react";
-import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
-import { pieArcLabelClasses, PieChart } from "@mui/x-charts/PieChart";
-import { BarChart } from "@mui/x-charts/BarChart";
+import React, { useEffect } from "react";
+import { Box, CircularProgress, Typography, useTheme, Divider } from "@mui/material";
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchHistoricScore } from "./historicScoreAPISlice";
+import { renderActiveShape } from "../../utils/renderActiveShape";
 
 const HistoricScore: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -21,89 +20,68 @@ const HistoricScore: React.FC = () => {
 
     if (!isLoggedIn || !user) return null;
 
-    const incorrectAnswers = totalQuestionsAnswered - score;
-
     const pieData = [
-        { id: 0, value: score, label: "Correct" },
-        { id: 1, value: incorrectAnswers, label: "Incorrect" }
+        { name: "Correct", value: score },
+        { name: "Incorrect", value: totalQuestionsAnswered - score }
     ];
 
     const barData = [
-        { category: "Correct", value: score },
-        { category: "Total", value: totalQuestionsAnswered }
+        { name: "Correct", value: score },
+        { name: "Total", value: totalQuestionsAnswered }
     ];
 
-
     return (
-        <Box className="app-container-bottom">
+        <Box className="app-container-bottom h-56">
             <Typography className="h6 absolute px-2 -top-3.5" bgcolor={theme.palette.background.default}>
                 Historic Score
             </Typography>
             {loading ? (
-                <Box className="flex justify-center items-center h-52">
+                <Box className="flex justify-center items-center h-full">
                     <CircularProgress />
                 </Box>
             ) : error ? (
                 <Typography className="text-red-500">Error: {error}</Typography>
             ) : (
-                <Box className="flex flex-row items-center justify-between">
-                    <PieChart
-                        series={[
-                            {
-                                data: pieData,
-                                arcLabel: (params) => params.label ?? "",
-                                arcLabelRadius: "165%",
-                                innerRadius: 20,
-                                outerRadius: 60,
-                                paddingAngle: 5,
-                                cornerRadius: 5,
-                                startAngle: -90,
-                                endAngle: 275,
-                                cx: 100,
-                            }
-                        ]}
-                        sx={{
-                            [`& .${pieArcLabelClasses.root}`]: {
-                                fontSize: 11
-                            }
-                        }}
-                        colors={["#80ef80", "#FF746C"]}
-                        width={200}
-                        height={200}
-                        slotProps={{
-                            legend: { hidden: true }
-                        }}
-                        className="!w-full"
-                    />
-                    <BarChart
-                        dataset={barData}
-                        xAxis={[{
-                            scaleType: "band",
-                            dataKey: "category",
-                            tickLabelStyle: {
-                                angle: 45,
-                                textAnchor: "start",
-                                fontSize: 11
-                            },
-                            colorMap: {
-                                type: "ordinal",
-                                values: ["Correct", "Total"],
-                                colors: ["#80ef80", "#b3ebf2"]
-                            }
-                        }]}
-                        yAxis={[{
-                            tickLabelStyle: {
-                                fontSize: 11
-                            }
-                        }]}
-                        series={[{ dataKey: "value", label: "Score" }]}
-                        width={200}
-                        height={200}
-                        slotProps={{
-                            legend: { hidden: true }
-                        }}
-                        className="!w-full"
-                    />
+                <Box className="flex flex-row items-center justify-between h-full">
+                    <Box className="w-1/2 h-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    activeIndex={0}
+                                    activeShape={renderActiveShape}
+                                    data={pieData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={25}
+                                    outerRadius={45}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                >
+                                    {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={index === 0 ? theme.palette.chart.correct : theme.palette.chart.incorrect} />
+                                    ))}
+                                </Pie>
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </Box>
+                    <Divider className="hidden sm:flex" orientation="vertical" flexItem />
+                    <Box className="w-1/2 h-full flex items-center justify-center">
+                        <ResponsiveContainer width={175} height="80%">
+                            <BarChart data={barData}>
+                                <XAxis dataKey="name" tick={{ fontSize: 10, fill: theme.palette.text.primary }} />
+                                <YAxis tick={{ fontSize: 10, fill: theme.palette.text.primary }} />
+                                <Tooltip contentStyle={{
+                                    backgroundColor: theme.palette.background.paper,
+                                    color: theme.palette.text.primary
+                                }} />
+                                <Bar dataKey="value" fill="#8884d8">
+                                    {barData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={index === 0 ? theme.palette.chart.correct : theme.palette.chart.total} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </Box>
                 </Box>
             )}
         </Box>
