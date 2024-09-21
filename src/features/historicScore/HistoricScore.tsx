@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, CircularProgress, Typography, useTheme, Divider } from "@mui/material";
+import { Box, CircularProgress, Typography, useTheme, Divider, useMediaQuery } from "@mui/material";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchHistoricScore } from "./historicScoreAPISlice";
@@ -11,6 +11,7 @@ const HistoricScore: React.FC = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const user = useAppSelector((state) => state.login.user);
     const { score, totalQuestionsAnswered, loading, error } = useAppSelector((state) => state.historicScore);
+    const isMobile = useMediaQuery("(max-width:640px)");
 
     useEffect(() => {
         if (isLoggedIn && user && user.uid) {
@@ -31,7 +32,7 @@ const HistoricScore: React.FC = () => {
     ];
 
     return (
-        <Box className="app-container-bottom h-56">
+        <Box className={`app-container-bottom ${isMobile ? 'h-96' : 'h-56'}`}>
             <Typography className="h6 absolute px-2 -top-3.5" bgcolor={theme.palette.background.default}>
                 Historic Score
             </Typography>
@@ -42,8 +43,8 @@ const HistoricScore: React.FC = () => {
             ) : error ? (
                 <Typography className="text-red-500">Error: {error}</Typography>
             ) : (
-                <Box className="flex flex-row items-center justify-between h-full">
-                    <Box className="w-1/2 h-full">
+                <Box className={`flex ${isMobile ? "flex-col" : "flex-row"} items-center justify-between h-full`}>
+                    <Box className={isMobile ? "w-full h-1/2" : "w-1/2 h-full"}>
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
@@ -52,21 +53,22 @@ const HistoricScore: React.FC = () => {
                                     data={pieData}
                                     cx="50%"
                                     cy="50%"
-                                    innerRadius={25}
-                                    outerRadius={45}
+                                    innerRadius={isMobile ? 20 : 25}
+                                    outerRadius={isMobile ? 40 : 45}
                                     fill="#8884d8"
                                     dataKey="value"
                                 >
                                     {pieData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={index === 0 ? theme.palette.chart.correct : theme.palette.chart.incorrect} />
+                                        <Cell key={`cell-${index}`}
+                                              fill={index === 0 ? theme.palette.chart.correct : theme.palette.chart.incorrect} />
                                     ))}
                                 </Pie>
                             </PieChart>
                         </ResponsiveContainer>
                     </Box>
-                    <Divider className="hidden sm:flex" orientation="vertical" flexItem />
-                    <Box className="w-1/2 h-full flex items-center justify-center">
-                        <ResponsiveContainer width={175} height="80%">
+                    <Divider className={isMobile ? "hidden" : "flex"} orientation="vertical" />
+                    <Box className={`${isMobile ? "w-full h-1/2" : "w-1/2 h-full"} flex items-center justify-center mr-14`}>
+                        <ResponsiveContainer width={isMobile ? 150 : 175} height={isMobile ? 115 : 140}>
                             <BarChart data={barData}>
                                 <XAxis dataKey="name" tick={{ fontSize: 10, fill: theme.palette.text.primary }} />
                                 <YAxis tick={{ fontSize: 10, fill: theme.palette.text.primary }} />
@@ -76,7 +78,8 @@ const HistoricScore: React.FC = () => {
                                 }} />
                                 <Bar dataKey="value" fill="#8884d8">
                                     {barData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={index === 0 ? theme.palette.chart.correct : theme.palette.chart.total} />
+                                        <Cell key={`cell-${index}`}
+                                              fill={index === 0 ? theme.palette.chart.correct : theme.palette.chart.total} />
                                     ))}
                                 </Bar>
                             </BarChart>

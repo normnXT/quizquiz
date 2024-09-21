@@ -5,7 +5,7 @@ export default {
     theme: {
         extend: {
             screens: {
-                "xs": "320px",
+                "xs": "340px",
                 "sm": "640px",
                 "md": "768px",
                 "lg": "1024px",
@@ -13,7 +13,7 @@ export default {
                 "2xl": "1536px"
             },
             maxWidth: {
-                "xs": "480px",
+                "xs": "340px",
                 "sm": "640px",
                 "md": "768px",
                 "lg": "1024px",
@@ -21,7 +21,7 @@ export default {
                 "2xl": "1536px"
             },
             minWidth: {
-                "xs": "480px",
+                "xs": "340px",
                 "sm": "640px",
                 "md": "768px",
                 "lg": "1024px",

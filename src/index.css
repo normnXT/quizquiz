@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 @layer components {
-    .app-container {
-        @apply p-4 m-4 border-2 border-gray-300 rounded-lg mx-auto max-w-md min-w-xs;
+    .app-container, .app-container-top, .app-container-bottom {
+        @apply p-4 m-4 border-2 border-gray-300 rounded-lg mx-auto w-full;
     }
 
     .app-container-top {
-        @apply p-4 mb-4 border-2 border-gray-300 rounded-lg mx-auto max-w-md min-w-xs relative;
+        @apply mb-4 relative;
     }
 
     .app-container-bottom {
-        @apply p-4 mt-6 border-2 border-gray-300 rounded-lg mx-auto max-w-md min-w-xs relative;
+        @apply relative;
     }
 }
 

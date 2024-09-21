@@ -10,7 +10,7 @@ import Logout from "./features/logout/Logout";
 import CurrentScore from "./features/currentScore/CurrentScore";
 import HistoricScore from "./features/historicScore/HistoricScore";
 import ThemeToggle from "./features/themeToggle/ThemeToggle";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 interface AppProps {
     toggleTheme: () => void;
@@ -20,7 +20,7 @@ const App: React.FC<AppProps> = ({ toggleTheme }) => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
 
     return (
-        <Box className="font-mono">
+        <Container className="font-mono !max-w-md !min-w-xs">
             <ThemeToggle onChange={toggleTheme} />
             <CurrentScore />
             <Quiz />
@@ -31,7 +31,7 @@ const App: React.FC<AppProps> = ({ toggleTheme }) => {
                 <Route path="/register" element={isLoggedIn ? <Logout /> : <Register />} />
             </Routes>
             <HistoricScore />
-        </Box>
+        </Container>
     );
 };
 
