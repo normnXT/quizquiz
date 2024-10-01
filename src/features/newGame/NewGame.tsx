@@ -70,7 +70,7 @@ const NewGame: React.FC = () => {
                 dispatch(setQuestions(data.results));
             }
         }
-    }, [isSuccess, data, token, difficulty, category, dispatch, getQuizQuestions, resetSessionToken]);
+    }, [isSuccess, data, dispatch, getQuizQuestions, resetSessionToken]);
 
     const onDifficultyChange = (event: SelectChangeEvent) => {
         setDifficulty(event.target.value as string);

@@ -1,3 +1,6 @@
+**Fix state for current score pie chart changing when drop down is changed 
+
+
 # QuizQuiz
 
 QuizQuiz is an interactive quiz application built with modern web technologies. It provides users with a seamless experience to test their knowledge across various categories and difficulty levels.

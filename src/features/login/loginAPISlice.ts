@@ -38,7 +38,7 @@ export const loginUser = createAsyncThunk(
     }
 );
 
-// Checks the authentication state on app load, users stay logged in on refresh
+// Checks authentication state on app load, users stay logged in on browser refresh/close
 export const checkAuthState = createAsyncThunk(
     "login/checkAuthState",
     async (_, { dispatch}) => {
