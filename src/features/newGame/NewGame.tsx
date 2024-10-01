@@ -58,6 +58,7 @@ const NewGame: React.FC = () => {
 
     useEffect(() => {
         if (isSuccess && data) {
+            // Response code 4 indicates token has expired and needs to be reset, the users questions will repeat
             if (data.response_code === 4) {
                 resetSessionToken(token).then((res: any) => {
                     if (res.data?.token) {

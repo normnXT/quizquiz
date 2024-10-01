@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebaseConfig";
-import { signInWithEmailAndPassword, onAuthStateChanged, User, signOut } from "firebase/auth";
+import type { User} from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
 interface LoginState {
     isLoggedIn: boolean;
@@ -37,6 +38,7 @@ export const loginUser = createAsyncThunk(
     }
 );
 
+// Checks the authentication state on app load, users stay logged in on refresh
 export const checkAuthState = createAsyncThunk(
     "login/checkAuthState",
     async (_, { dispatch}) => {

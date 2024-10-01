@@ -13,6 +13,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { checkAuthState } from "./features/login/loginAPISlice";
 
 const Root: React.FC = () => {
+    // Retrieve users theme preference from localStorage or default to light mode
+    // Keeps theme consistent on page refresh
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem("darkMode");
         return savedMode ? JSON.parse(savedMode) : false;
@@ -25,6 +27,7 @@ const Root: React.FC = () => {
     };
 
     useEffect(() => {
+        // Check authentication state on app load
         store.dispatch(checkAuthState());
     }, []);
 

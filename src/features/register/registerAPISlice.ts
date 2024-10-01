@@ -19,14 +19,12 @@ export const registerUser = createAsyncThunk(
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Store user data in Firestore
+      // Initializes user document in Firestore with default quiz stats
       await setDoc(doc(db, 'users', user.uid), {
         email: user.email,
         score: 0,
         totalQuestionsAnswered: 0,
       });
-
       return user;
     } catch (error: any) {
       return rejectWithValue(error.message);

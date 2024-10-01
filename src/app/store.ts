@@ -15,10 +15,12 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
   const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => {
+      // Adds default RTK Query middleware, sends console errors for runtime checks
       return getDefaultMiddleware().concat(newGameAPISlice.middleware)
     },
     preloadedState,
   })
+  // Sets up listeners for enabling RTK query fetching on reconnect or refocus
   setupListeners(store.dispatch)
   return store
 }

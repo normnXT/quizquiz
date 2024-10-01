@@ -2,6 +2,7 @@
 import type { ThemeOptions } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
+// Extends the default theme types to include custom color options for charts
 declare module '@mui/material/styles' {
   interface Palette {
     chart: {
@@ -19,6 +20,7 @@ declare module '@mui/material/styles' {
   }
 }
 
+// Generate theme configuration based on light or dark mode
 const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
   palette: {
     mode,

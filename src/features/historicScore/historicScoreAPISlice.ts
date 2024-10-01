@@ -16,6 +16,7 @@ const initialState: HistoricScoreState = {
   error: null,
 };
 
+
 export const fetchHistoricScore = createAsyncThunk(
   'historicScore/fetchHistoricScore',
   async (userId: string, { rejectWithValue }) => {

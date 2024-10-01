@@ -12,6 +12,8 @@ const CurrentScore: React.FC = () => {
     const isMobile = useMediaQuery("(max-width:640px)");
     const incorrectAnswers = totalQuestionsAnswered - score;
 
+    // Prepares data for the pie chart, handles case when no questions have been answered
+    // Value for "No data" is set to 1 so that the pie chart will always be rendered in-place
     const data = totalQuestionsAnswered > 0
         ? [
             { name: "Correct", value: score },

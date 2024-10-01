@@ -10,6 +10,12 @@ export interface Question {
 }
 
 interface QuizApiResponse {
+    // Response codes:
+    // 0: Success
+    // 1: No Results (not enough questions for the query)
+    // 2: Invalid Parameter
+    // 3: Token Not Found
+    // 4: Token Empty (all questions for the query have been returned)
     response_code: number;
     results: Question[];
 }
@@ -31,12 +37,14 @@ export const newGameAPISlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "https://opentdb.com/" }),
     tagTypes: ["NewGame"],
     endpoints: (builder) => ({
-        // Endpoint to request a session token
+        // Session Tokens are unique keys that will help keep track of the questions the API has already retrieved
+        // Tokens are valid for 6 hours of inactivity
         getSessionToken: builder.query<TokenResponse, void>({
             query: () => "api_token.php?command=request"
         }),
-
-        // Endpoint to get quiz questions with the session token
+        // Example of a full url being built by getQuizQuestions:
+        // "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
+        // Only one category can be requested per API call
         getQuizQuestions: builder.query<QuizApiResponse, QuizQueryParams>({
             query: ({ difficulty, category, token, questionType }) => {
                 let url = `api.php?amount=10&token=${token}`;
@@ -48,7 +56,7 @@ export const newGameAPISlice = createApi({
             providesTags: (result, error, arg) => [{ type: "NewGame", arg }]
         }),
 
-        // Optional: Endpoint to reset the session token
+        // Called when all questions for a query have been exhausted
         resetSessionToken: builder.mutation<TokenResponse, string>({
             query: (token) => `api_token.php?command=reset&token=${token}`
         })

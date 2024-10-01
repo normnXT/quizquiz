@@ -21,16 +21,21 @@ const HistoricScore: React.FC = () => {
 
     if (!isLoggedIn || !user) return null;
 
+    // Prepares data from the Firestore for the bar chart
+    // Pie chart displays users historic total correct answers and total incorrect answers
     const pieData = [
         { name: "Correct", value: score },
         { name: "Incorrect", value: totalQuestionsAnswered - score }
     ];
 
+    //  Bar chart displays historic total questions answered and total correct answers
     const barData = [
         { name: "Correct", value: score },
         { name: "Total", value: totalQuestionsAnswered }
     ];
 
+    // The bar chart uses fixed widths and right padding due to sizing and positioning issues
+    // specific to this Recharts component. This is not a CSS problem but a limitation of the component.
     return (
         <Box className={`app-container-bottom ${isMobile ? 'h-96' : 'h-56'}`}>
             <Typography className="h6 absolute px-2 -top-3.5" bgcolor={theme.palette.background.default}>

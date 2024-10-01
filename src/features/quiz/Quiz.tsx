@@ -28,6 +28,7 @@ const Quiz: React.FC = () => {
     useEffect(() => {
         if (isActive) {
             if (currentQuestion.type === "multiple") {
+                // Randomly shuffles answers for multiple choice questions using a value from 0-1
                 setAnswers([...currentQuestion.incorrect_answers, currentQuestion.correct_answer].sort(() => Math.random() - 0.5));
             } else {
                 setAnswers(["True", "False"]);
