@@ -5,12 +5,12 @@ import Quiz from "./features/quiz/Quiz";
 import LoginSplash from "./features/loginSplash/LoginSplash";
 import Login from "./features/login/Login";
 import Register from "./features/register/Register";
-import { useAppSelector } from "./app/hooks";
 import Logout from "./features/logout/Logout";
 import CurrentScore from "./features/currentScore/CurrentScore";
 import HistoricScore from "./features/historicScore/HistoricScore";
 import ThemeToggle from "./features/themeToggle/ThemeToggle";
-import { Box, Container } from "@mui/material";
+import { useAppSelector } from "./app/hooks";
+import { Container } from "@mui/material";
 
 interface AppProps {
     toggleTheme: () => void;
