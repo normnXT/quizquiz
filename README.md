@@ -1,11 +1,11 @@
 ### Project Overview
-A trivia web application built with React and Firebase, featuring real-time question fetching from the Open Trivia Database. The application showcases modern React patterns and state management practices.
+A trivia web application built with React and Firebase, featuring real-time question fetching from [Open Trivia DB](https://opentdb.com/). The application was produced as a learning exercise and showcases modern React patterns and state management practices.
 
 ### YouTube demo
 
 Click the image below to be directed to YouTube to watch a quick, unedited, informal preview of the app in use:
 
-[![Screenshot 2024-08-20 111630](https://github.com/user-attachments/assets/81b26af6-25e4-43ab-bf0c-ce0bd96fa042)](https://youtu.be/XLo0breKAqE "Preview")
+[![Screenshot 2024-11-28 125443](https://github.com/user-attachments/assets/097f45cc-60bf-44cd-9790-d6ff511e2735)](https://youtu.be/XLo0breKAqE "Preview")
 
 ### Technical Features
 * Modern Redux implementation using Redux Toolkit and RTK Query
@@ -30,7 +30,7 @@ Install dependencies:
 ```bash
 npm install
 ```
-2. Create a Firebase configuration file using this template with your Firebase credentials:
+2. Create a Firebase configuration file (src/firebaseConfig.ts) using this template with your Firebase credentials:
 ```typescript
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
